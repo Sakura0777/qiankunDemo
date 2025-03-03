@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <div class="left">
-      <router-link to="/">Home</router-link> 
+      <!-- <router-link to="/">Home</router-link> 
       <router-link to="/about">About</router-link> 
       <router-link to="/vue2-hash-micro-app">vue2-hash路由子项目</router-link>
       <router-link to="/vue2-micro-app">vue2-history路由子项目</router-link>
-      <router-link to="/vue3-micro-app">vue3子项目</router-link>
-   
+      <router-link to="/vue3-micro-app">vue3子项目</router-link> -->
+      <LeftMenu></LeftMenu>
     </div>
+
     <div class="right">
       <div class="topBanner">
-        <p>{{globalData.userName}}</p>
-        <p>{{globalData.userID}}</p>
+        <!-- <p>{{globalData.userName}}</p>
+        <p>{{globalData.userID}}</p> -->
+        <Header></Header>
       </div>
       <div>
         <div id="appContainer" ></div>
@@ -21,9 +23,14 @@
   </div>
 </template>
 <script>
+import LeftMenu from './views/LeftMenu.vue';
+import Header from './views/Header.vue'
 import {state,actions} from '@/action'
 
 export default{
+  components: {
+    LeftMenu,Header
+  },
   data(){
     return {
       globalData:{}
@@ -53,7 +60,7 @@ export default{
 
 .left {
   padding: 24px;
-  width: 250px;
+  width: 300px;
   height: 100vh;
   background-color: #41b883;
   text-align: left;
@@ -80,7 +87,6 @@ export default{
     width: 100%;
     height: 100px;
     background-color: #41b883;
-    color: #0d64bb;
   }
 
 }

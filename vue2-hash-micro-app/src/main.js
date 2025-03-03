@@ -12,7 +12,9 @@ let router = null;
 let instance = null;
 function render(props = {}) {
   const { container,data } = props;
-  console.log('data',data.router)
+  if(data && data.router){
+   console.log('data',data.router)
+  }
     router = new VueRouter({
       mode: 'hash',
       base: window.__POWERED_BY_QIANKUN__?'/vue2-hash-micro-app':'/',
@@ -50,6 +52,13 @@ export async function mount(props) {
   },true);
   render(props);
 }
+window.addEventListener('getPagePath', (e) => {
+  console.log('getPagePath',e)
+  console.log('getPagePath',this)
+  if(e && e.detail &&e.detail.pagePath !== '/'){
+    this.$router.push(e.detail.pagePath)
+  }
+});
 export async function unmount() {
   instance.$destroy();
   instance.$el.innerHTML = '';
