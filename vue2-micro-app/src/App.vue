@@ -1,13 +1,24 @@
 <template>
   <div id="app">
-    <nav>
+    <nav v-if="!POWERED_BY_QIANKUN">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> | 
+      <router-link to="/project/query">监管项目集查询</router-link> | 
+      <router-link to="/project/add">监管项目集新增</router-link> | 
+      <router-link to="/project/modify">监管项目集修改</router-link> | 
+      <router-link to="/project/delete">监管项目集删除</router-link>
     </nav>
     <router-view/>
   </div>
 </template>
 <script>
+export default{
+  computed:{
+    POWERED_BY_QIANKUN(){
+      return window.__POWERED_BY_QIANKUN__
+    }
+  }
+}
 </script>
 <style lang="less">
 #app {

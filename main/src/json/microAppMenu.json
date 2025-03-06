@@ -11,23 +11,19 @@
                 "menuName":"银行工作台",
                 "children":[
                     {
-                        "path":"/workbenches/home",
-                        "menuName":"首页"
-                    },
-                    {
-                        "path":"/workbenches/businessTypeDetails",
+                        "path":"/businessTypeDetails",
                         "menuName":"业务类型详情"
                     },
                     {
-                        "path":"/workbenches/superviseDetails",
+                        "path":"/superviseDetails",
                         "menuName":"监管项目详情"
                     },
                     {
-                        "path":"/workbenches/signDetails",
+                        "path":"/signDetails",
                         "menuName":"签约账户详情"
                     },
                     {
-                        "path":"/workbenches/quickSign",
+                        "path":"/quickSign",
                         "menuName":"一步签约"
                     }
                 ]
@@ -45,19 +41,19 @@
                 "menuName":"业务类型信息管理",
                 "children":[
                     {
-                        "path":"/info/query",
+                        "path":"/query",
                         "menuName":"业务类型信息查询"
                     },
                     {
-                        "path":"/info/add",
+                        "path":"/add",
                         "menuName":"业务类型信息新增"
                     },
                     {
-                        "path":"/info/modify",
+                        "path":"/modify",
                         "menuName":"业务类型信息修改"
                     },
                     {
-                        "path":"/info/delete",
+                        "path":"/delete",
                         "menuName":"业务类型信息删除"
                     }
                 ]
@@ -67,7 +63,7 @@
                 "menuName":"业务类型准入管理",
                 "children":[
                     {
-                        "path":"/admit/admit",
+                        "path":"/admit",
                         "menuName":"业务类型准入管理"
                     }
                 ]
@@ -81,23 +77,23 @@
         "menuName":"监管项目管理",
         "children":[
             {
-                "path":"/info",
+                "path":"/project",
                 "menuName":"监管项目集管理",
                 "children":[
                     {
-                        "path":"/info/query",
+                        "path":"/query",
                         "menuName":"监管项目集查询"
                     },
                     {
-                        "path":"/info/add",
+                        "path":"/add",
                         "menuName":"监管项目集新增"
                     },
                     {
-                        "path":"/info/modify",
+                        "path":"/modify",
                         "menuName":"监管项目集修改"
                     },
                     {
-                        "path":"/info/delete",
+                        "path":"/delete",
                         "menuName":"监管项目集删除"
                     }
                 ]

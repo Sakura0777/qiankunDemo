@@ -32,6 +32,16 @@ const routes = [
     path: '/info/modify',
     name: '业务类型信息修改',
     component: () => import('../views/InfoModify.vue')
+  },
+  {
+    path: '/info/delete',
+    name: '业务类型信息删除',
+    component: () => import('../views/InfoDel.vue')
+  },
+  {
+    path: '/admit/admit',
+    name: '业务类型准入管理',
+    component: () => import('../views/AdmitAdmit.vue')
   }
 ]
 

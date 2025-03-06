@@ -50,15 +50,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-// router.beforeEach((to, from, next) => {
-//   console.log('router.beforeEach',to.path, from.path)
-//   if (to.path ===  from.path) {
-//     // 可以在这里显示一个提示或者不进行路由跳转
-//     alert("你已经在这个页面了");
-//     next(false); // 不进行跳转
-//   } else {
-//     next(); // 继续路由跳转
-//   }
-// });
 
 export default router

@@ -1,12 +1,18 @@
 <template>
     <div class="headerBox">
+      <div class="breadcrumbBox">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="name,index in breadcrumbArray" :key="'bread'+index">{{ name }}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
       <div class="tagBox">
         <el-tag
-          v-for="tag in menuTagArray"
+          v-for="(tag,index) in menuTagArray"
           :key="tag.path"
-          closable
-          :type="tag.type"
-          @click="routeTo(tag.path)"
+          :closable="Boolean(index)"
+          :type="activedTagIndex === index?'':'info'"
+          @click="routeTo(tag.path,index)"
           @close="closeTag(tag.path)">
           {{tag.name}}
         </el-tag>
@@ -32,11 +38,20 @@
       }
     },
     computed:{
+      breadcrumbArray(){
+        return this.$store.state.menuTagArray[this.activedTagIndex].menuRoute
+      },
+      activedTagIndex(){
+        return this.$store.state.activedTagIndex
+      },
       menuTagArray(){
         return this.$store.state.menuTagArray
       }
     },
     watch:{
+      activedTagIndex(){
+        console.log('activedTagIndex',this.activedTagIndex)
+      },
       menuTagArray(){
         console.log('menuTagArray',this.menuTagArray)
 
@@ -53,18 +68,25 @@
     },
   
     methods:{
-      routeTo(path){
+      routeTo(path,index){
+        if(this.activedTagIndex === index){
+          return
+        }
         this.$router.push(path)
+        this.$store.commit('setActivedTagIndex',index)
       },
       closeTag(path){
         console.log('delMenuTag',path)
         const index = this.menuTagArray.findIndex(i=>i.path === path)
         console.log('index',index)
-        if(index !== -1){
-          this.$router.push(index === 0?'/': this.menuTagArray[index-1])
-          this.$store.commit('delMenuTag',index)
+        this.$store.commit('delMenuTag',index)
+        if(index === this.activedTagIndex){
+          this.$router.push(this.menuTagArray[index-1])
+          this.$store.commit('setActivedTagIndex',index-1)
+        }else if(index < this.activedTagIndex ){
+          this.$store.commit('setActivedTagIndex',this.activedTagIndex-1)
         }
-    },
+      },
       addScore(){
         this.globalData.score++;
         actions.setGlobalState({ score:this.globalData.score });
@@ -76,10 +98,13 @@
   }
   </script>
   <style>
+  .breadcrumbBox{
+    width: 100%;
+    padding: 18px;
+  }
   .tagBox{
     width: 100%;
     padding: 12px;
-    transform: translateY(45px);
     span{
       float: left;
       margin-right: 10px;

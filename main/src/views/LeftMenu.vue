@@ -3,14 +3,15 @@
         <el-container style="height: auto; border: 1px solid #eee">
             <el-aside width="100%" style="background-color: rgb(238, 241, 246)">
                 <el-menu :default-openeds="['0']">
-                  <el-submenu  v-for="(oneMenu,index1) in microAppMenuArray" :index="index1.toString()">
+                  <el-submenu  v-for="(oneMenu,index1) in microAppMenuArray" :index="index1.toString()" :key="index1">
                     <template slot="title"><i class="el-icon-message"></i>{{ oneMenu.menuName }}</template>
                     <el-menu-item-group>
-                      <el-submenu v-for="(twoMenu,index2) in oneMenu.children" :index="`${index1}-${index2}`">
+                      <el-submenu v-for="(twoMenu,index2) in oneMenu.children" :index="`${index1}-${index2}`" :key="`${index1}-${index2}`">
                         <template slot="title">{{twoMenu.menuName }}</template>
                         <el-menu-item  v-for="(threeMenu,index3) in twoMenu.children" 
                           :index="`${index1}-${index2}-${index3}`"
-                          @click="routeTo(oneMenu.mode,oneMenu.path,threeMenu.path,threeMenu.menuName)">{{threeMenu.menuName }}</el-menu-item>
+                          :key="`${index1}-${index2}-${index3}`"
+                          @click="routeTo(oneMenu,twoMenu,threeMenu)">{{threeMenu.menuName }}</el-menu-item>
                       </el-submenu>
                     </el-menu-item-group>
                   </el-submenu>
@@ -47,18 +48,17 @@
     },
   
     methods:{
-      routeTo(mode,appPath,pagePath,menuName){
-        console.log('path',appPath,pagePath)
+      routeTo(oneMenum,twoMenu,threeMenu){
         let fullPath = ''
-        if(mode === 'hash'){
-          fullPath = appPath+'#'+pagePath
+        if(oneMenum.mode === 'hash'){
+          fullPath = oneMenum.path+'#'+twoMenu.path+threeMenu.path
         }else{
-          fullPath = appPath+pagePath
+          fullPath = oneMenum.path+twoMenu.path+threeMenu.path
         }
         if(this.$route.fullPath === fullPath){
           return
         }
-        this.$store.commit('pushMenuTag',{ name:menuName,path:fullPath})
+        this.$store.commit('pushMenuTag',{ name:threeMenu.menuName,path:fullPath,menuRoute:[oneMenum.menuName,twoMenu.menuName,threeMenu.menuName]})
         this.$router.push(fullPath)
       },
       sendMsgToMircoApp(){
