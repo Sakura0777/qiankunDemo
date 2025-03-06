@@ -8,7 +8,10 @@
       <router-link to="/info/modify">业务类型信息修改</router-link> | 
       <router-link to="/info/delete">业务类型信息删除</router-link>
     </nav>
-    <router-view/>
+    <keep-alive> 
+      <router-view/>
+    </keep-alive>
+   
   </div>
 </template>
 <script>

@@ -42,7 +42,6 @@
     mounted(){
       // console.log('主项目2state',state,actions)
       this.globalData = state;
-      console.log('microAppMenu',microAppMenu)
       this.microAppMenuArray = microAppMenu.microAppMenu;
   
     },
@@ -58,6 +57,7 @@
         if(this.$route.fullPath === fullPath){
           return
         }
+        console.log('fullPath',fullPath)
         this.$store.commit('pushMenuTag',{ name:threeMenu.menuName,path:fullPath,menuRoute:[oneMenum.menuName,twoMenu.menuName,threeMenu.menuName]})
         this.$router.push(fullPath)
       },

@@ -16,8 +16,10 @@
         <Header></Header>
       </div>
       <div>
-        <div id="appContainer" ></div>
-        <router-view/>
+        <Keep-alive>
+          <div id="appContainer"></div>
+          <router-view/>
+        </Keep-alive>
       </div>
     </div>
   </div>

@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    breadcrumbArray:[],
     menuTagArray:[{name:'首页',path:'/',menuRoute:[]}],
     activedTagIndex:0
   },
@@ -15,9 +14,12 @@ export default new Vuex.Store({
     setActivedTagIndex(state,index){
       state.activedTagIndex = index
     },
+    setMenuTagArray(state,data){
+      state.menuTagArray = data
+    },
     pushMenuTag(state,menu){
       const index = state.menuTagArray.findIndex(i=>i.path === menu.path)
-      console.log('pushMenuTag',index)
+      // console.log('pushMenuTag',index)
       if(index === -1){
         state.activedTagIndex = state.menuTagArray.length
         state.menuTagArray.push(menu)

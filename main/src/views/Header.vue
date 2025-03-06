@@ -2,8 +2,10 @@
     <div class="headerBox">
       <div class="breadcrumbBox">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <transition-group name="breadcrumb">
+            <el-breadcrumb-item key='/0'><a @click.prevent="gotoMain()">首页</a></el-breadcrumb-item>
             <el-breadcrumb-item v-for="name,index in breadcrumbArray" :key="'bread'+index">{{ name }}</el-breadcrumb-item>
+          </transition-group>
         </el-breadcrumb>
       </div>
       <div class="tagBox">
@@ -34,11 +36,12 @@
     },
     data(){
       return {
+        breadcrumbArray:[],
         globalData:{}
       }
     },
     computed:{
-      breadcrumbArray(){
+      menuRoute(){
         return this.$store.state.menuTagArray[this.activedTagIndex].menuRoute
       },
       activedTagIndex(){
@@ -49,26 +52,59 @@
       }
     },
     watch:{
+      menuRoute(newVal,oldVal){
+        if(oldVal.length === 0 || newVal.length === 0){
+          this.breadcrumbArray = this.menuRoute
+        }
+        // console.log('breadcrumbArray--oldVal',oldVal)
+        // console.log('breadcrumbArray--newVal',newVal)
+        let index = oldVal.findIndex((item,index)=>item !== newVal[index])
+        // console.log('index',index)
+          if(index === -1){
+            index = 0
+            this.breadcrumbArray = []
+          }else{
+            this.breadcrumbArray = oldVal.slice(0,index)
+          }
+        this.$nextTick(()=>{
+          for(let j = index;j<newVal.length;j++){
+            this.breadcrumbArray.push(newVal[j])
+          }
+          window.sessionStorage.setItem('breadcrumbArray', this.breadcrumbArray);
+        })
+      },
       activedTagIndex(){
-        console.log('activedTagIndex',this.activedTagIndex)
+        window.sessionStorage.setItem('activedTagIndex', this.activedTagIndex);
       },
       menuTagArray(){
-        console.log('menuTagArray',this.menuTagArray)
-
-      },
-      $store(){
-        console.log('$store',store)
-
+        window.sessionStorage.setItem('menuTagArray', JSON.stringify(this.menuTagArray));
       }
     },
     mounted(){
       // console.log('主项目2state',state,actions)
       this.globalData = state;
+      window.addEventListener('load', ()=> {
+        if (window.performance.getEntriesByType("navigation")[0].type == 'reload') {
+            console.log('页面是通过刷新加载的');
+            this.breadcrumbArray =  window.sessionStorage.getItem('breadcrumbArray').split(',')
+            this.$store.commit('setMenuTagArray',JSON.parse(window.sessionStorage.getItem('menuTagArray')))
+            this.$store.commit('setActivedTagIndex',Number(window.sessionStorage.getItem('activedTagIndex')))
+        }
+    });
+    
 
     },
   
     methods:{
+      gotoMain(){
+        if(this.activedTagIndex === 0){
+          return
+        }
+        this.$router.push('/')
+        this.$store.commit('setActivedTagIndex',0)
+      },
       routeTo(path,index){
+        console.log('path,path',path)
         if(this.activedTagIndex === index){
           return
         }
@@ -76,9 +112,7 @@
         this.$store.commit('setActivedTagIndex',index)
       },
       closeTag(path){
-        console.log('delMenuTag',path)
         const index = this.menuTagArray.findIndex(i=>i.path === path)
-        console.log('index',index)
         this.$store.commit('delMenuTag',index)
         if(index === this.activedTagIndex){
           this.$router.push(this.menuTagArray[index-1])
@@ -97,7 +131,7 @@
     }
   }
   </script>
-  <style>
+  <style lang="less">
   .breadcrumbBox{
     width: 100%;
     padding: 18px;
@@ -110,4 +144,23 @@
       margin-right: 10px;
     }
   }
+  /* breadcrumb transition */
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+  transition: all .5s;
+}
+
+.breadcrumb-enter,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb-move {
+  transition: all .5s;
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
+}
   </style>

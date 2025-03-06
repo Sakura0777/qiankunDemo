@@ -23,11 +23,6 @@ function render(props = {}) {
     instance = new Vue({
       router,
       store,
-      data:()=>{
-        return {
-          parentRouter:data.router
-        }
-      },
       render: (h) => h(App),
     }).$mount(container ? container.querySelector('#app') : '#app');
 }
