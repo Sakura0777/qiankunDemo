@@ -2,12 +2,13 @@
 {
 "microAppMenu":[
     {
-        "path":"",
-        "microApp":"/",
+        "mode":"history",
+        "path":"/vue3-micro-app",
+        "microApp":"/vue3-micro-app",
         "menuName":"工作台",
         "children":[
             {
-                "path":"/workbenches",
+                "path":"",
                 "menuName":"银行工作台",
                 "children":[
                     {

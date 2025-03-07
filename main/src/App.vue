@@ -1,18 +1,11 @@
 <template>
   <div id="app">
     <div class="left">
-      <!-- <router-link to="/">Home</router-link> 
-      <router-link to="/about">About</router-link> 
-      <router-link to="/vue2-hash-micro-app">vue2-hash路由子项目</router-link>
-      <router-link to="/vue2-micro-app">vue2-history路由子项目</router-link>
-      <router-link to="/vue3-micro-app">vue3子项目</router-link> -->
-      <LeftMenu></LeftMenu>
+            <LeftMenu></LeftMenu>
     </div>
 
     <div class="right">
       <div class="topBanner">
-        <!-- <p>{{globalData.userName}}</p>
-        <p>{{globalData.userID}}</p> -->
         <Header></Header>
       </div>
       <div>
