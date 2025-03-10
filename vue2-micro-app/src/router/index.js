@@ -24,22 +24,22 @@ const routes = [
   },
   {
     path: '/project/query',
-    name: '监管项目集查询',
+    name: 'ProjectQuery',
     component: ProjectQuery  
   },
   {
     path: '/project/add',
-    name: '监管项目集新增',
+    name: 'ProjectAdd',
     component: ProjectAdd  
   },
   {
     path: '/project/modify',
-    name: '监管项目集修改',
+    name: 'ProjectModify',
     component: ProjectModify
   },
   {
     path: '/project/delete',
-    name: '监管项目集删除',
+    name: 'ProjectDel',
     component: ProjectDel
    }
 ]
