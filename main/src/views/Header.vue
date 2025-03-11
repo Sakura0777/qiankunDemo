@@ -36,14 +36,12 @@
     },
     data(){
       return {
+        routesObj:{},
         breadcrumbArray:[],
         globalData:{}
       }
     },
     computed:{
-      menuRoute(){
-        return this.$store.state.menuTagArray[this.activedTagIndex].menuRoute
-      },
       activedTagIndex(){
         return this.$store.state.activedTagIndex
       },
@@ -52,27 +50,17 @@
       }
     },
     watch:{
-      menuRoute(newVal,oldVal){
-        if(oldVal.length === 0 || newVal.length === 0){
-          this.breadcrumbArray = this.menuRoute
-        }
-        // console.log('breadcrumbArray--oldVal',oldVal)
-        // console.log('breadcrumbArray--newVal',newVal)
-        let index = oldVal.findIndex((item,index)=>item !== newVal[index])
-        // console.log('index',index)
-          if(index === -1){
-            index = 0
-            this.breadcrumbArray = []
-          }else{
-            this.breadcrumbArray = oldVal.slice(0,index)
+      $route:{
+        handler(val){
+          // console.log('val',val)
+          if(Object.keys(this.routesObj).length){
+            this.breadcrumbArray = this.routesObj[val.fullPath.split('?')[0]]
           }
-        this.$nextTick(()=>{
-          for(let j = index;j<newVal.length;j++){
-            this.breadcrumbArray.push(newVal[j])
-          }
-          window.sessionStorage.setItem('breadcrumbArray', this.breadcrumbArray);
-        })
+        },
+        deep:true,
+        immediate:true
       },
+
       activedTagIndex(){
         window.sessionStorage.setItem('activedTagIndex', this.activedTagIndex);
       },
@@ -80,18 +68,38 @@
         window.sessionStorage.setItem('menuTagArray', JSON.stringify(this.menuTagArray));
       }
     },
+    created(){
+      const microAppMenuList = microAppMenu.microAppMenu
+      microAppMenuList.forEach(i=>{
+        let pathName = i.menuName
+        let pathRoute = i.path
+        if(i.mode === 'hash'){
+          pathRoute = pathRoute+'#'
+        }
+        i.children.forEach(j=>{
+          j.children &&  j.children.forEach(k=>{
+            const route = pathRoute+j.path+k.path
+            this.routesObj[route] = [pathName,j.menuName,k.menuName]
+          })
+        })
+      })
+      this.breadcrumbArray = this.routesObj[this.$route.fullPath.split('?')[0]]
+      
+    },
     mounted(){
       // console.log('主项目2state',state,actions)
       this.globalData = state;
       window.addEventListener('load', ()=> {
         if (window.performance.getEntriesByType("navigation")[0].type == 'reload') {
             console.log('页面是通过刷新加载的');
-            this.breadcrumbArray =  window.sessionStorage.getItem('breadcrumbArray').split(',')
             this.$store.commit('setMenuTagArray',JSON.parse(window.sessionStorage.getItem('menuTagArray')))
             this.$store.commit('setActivedTagIndex',Number(window.sessionStorage.getItem('activedTagIndex')))
+        }else{
+          if(this.menuTagArray.length === 1 && this.breadcrumbArray){
+            this.$store.commit('pushMenuTag',{ name:this.breadcrumbArray[this.breadcrumbArray.length-1],path:this.$route.fullPath.split('?')[0]})
+          }
         }
     });
-    
 
     },
   

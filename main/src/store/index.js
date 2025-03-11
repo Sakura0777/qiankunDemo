@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    menuTagArray:[{name:'首页',path:'/',menuRoute:[]}],
+    menuTagArray:[{name:'首页',path:'/'}],
     activedTagIndex:0
   },
   getters: {

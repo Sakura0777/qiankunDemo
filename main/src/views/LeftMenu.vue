@@ -42,7 +42,6 @@
     },
     computed:{
       activeMenu(){
-        console.log('this.$route',this.$route)
         return this.$route.fullPath.split('?')[0]
       }
     },
@@ -65,7 +64,7 @@
           return
         }
         console.log('fullPath',fullPath)
-        this.$store.commit('pushMenuTag',{ name:threeMenu.menuName,path:fullPath,menuRoute:[oneMenu.menuName,twoMenu.menuName,threeMenu.menuName]})
+        this.$store.commit('pushMenuTag',{ name:threeMenu.menuName,path:fullPath})
         this.$router.push(fullPath)
       },
       sendMsgToMircoApp(){
